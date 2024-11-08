@@ -8,17 +8,17 @@ function ajouterMetier() {
     metierDiv.setAttribute("data-metier-id", metierCount);
 
     metierDiv.innerHTML = `
-        <label>Nom du métier ${metierCount} :
-            <input type="text" class="nomMetier" placeholder="Nom du métier ${metierCount}" required>
+        <label>Job ${metierCount} :
+            <input type="text" class="nomMetier" placeholder="Job ${metierCount} name" required>
         </label>
-        <button type="button" onclick="supprimerMetier(${metierCount})">Supprimer</button>
+        <button type="button" onclick="supprimerMetier(${metierCount})">Delete</button>
         <br>
     `;
 
     document.getElementById("metiersInputs").appendChild(metierDiv);
     // Ajouter automatiquement le champ de ce métier dans chaque entreprise
     document.querySelectorAll(".entreprise").forEach((entrepriseDiv) => {
-        ajouterChampMetierEntreprise(entrepriseDiv, `Nom du métier ${metierCount}`);
+        ajouterChampMetierEntreprise(entrepriseDiv, `Job ${metierCount}`);
     });
 }
 
@@ -43,9 +43,9 @@ function ajouterEntreprise() {
 
     const entrepriseCount = document.querySelectorAll('.entreprise').length + 1;
     entrepriseDiv.innerHTML = `
-        <h3>Entreprise ${entrepriseCount}</h3>
-        <label>Nom de l'entreprise :
-            <input type="text" class="nomEntreprise" placeholder="Nom de l'entreprise ${entrepriseCount}">
+        <h3>Company ${entrepriseCount}</h3>
+        <label>Company name :
+            <input type="text" class="nomEntreprise" placeholder="Company ${entrepriseCount} name">
         </label>
         <br>
     `;
@@ -79,7 +79,7 @@ function calculerProportions() {
     // Récupérer les données des entreprises
     const entreprises = [];
     document.querySelectorAll('.entreprise').forEach((div) => {
-        const nom = div.querySelector(".nomEntreprise").value || "Entreprise";
+        const nom = div.querySelector(".nomEntreprise").value || "Company";
 
         const employesParMetier = Array.from(div.querySelectorAll(".nbEmployesMetier")).map((input, index) => ({
             nom: metiers[index],
@@ -103,7 +103,7 @@ function calculerProportions() {
             nbReponsesParEntreprise = parseInt(document.getElementById("nbReponsesParEntreprise").value);
         }
 
-        document.getElementById("resultats").innerHTML += `<h3>${entreprise.nom}</h3><p>Nombre total de réponses pour cette entreprise: ${nbReponsesParEntreprise}</p><ul>`;
+        document.getElementById("resultats").innerHTML += `<h3>${entreprise.nom}</h3><p>Total nomber of response for this company: ${nbReponsesParEntreprise}</p><ul>`;
 
         entreprise.employesParMetier.forEach((metier) => {
             const proportion = metier.nombre / totalEmployes;
@@ -112,8 +112,8 @@ function calculerProportions() {
             let nbFemmesMetier = Math.floor(nbMetier * (ratioFemmes / totalRatio));
 
             document.getElementById("resultats").innerHTML += `
-                <li>${metier.nom} Hommes: ${nbHommesMetier}</li>
-                <li>${metier.nom} Femmes: ${nbFemmesMetier}</li>
+                <li>${metier.nom} - Men: ${nbHommesMetier}</li>
+                <li>${metier.nom} - Women: ${nbFemmesMetier}</li>
             `;
         });
 
