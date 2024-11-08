@@ -7,7 +7,7 @@ This was done for my final thesis, and I thought it might be useful to other peo
 
 ## How to use
 
-You can use the web page by going to [this link]().
+You can use the web page by going to [this link](https://maxlepan.github.io/survey-anwsers-ratio-calculator/).
 
 You can also clone this repository and open the `index.html` file in your browser.
 
