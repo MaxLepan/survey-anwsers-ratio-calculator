@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calculateur de Proportions</title>
+</head>
+<body>
+    <h1>Calculateur de Proportions pour les Questionnaires</h1>
+    
+    <!-- Formulaire pour les entrées -->
+    <form id="formulaireProportions">
+        <h2>Paramètres généraux</h2>
+        <label>Nombre total de réponses nécessaires :
+            <input type="number" id="nbReponsesTotal" value="100">
+        </label>
+        <br>
+        <label>Ratio Hommes (ex: 7) :
+            <input type="number" id="ratioHommes" value="7">
+        </label>
+        <br>
+        <label>Ratio Femmes (ex: 3) :
+            <input type="number" id="ratioFemmes" value="3">
+        </label>
+        <br>
+        <label>Déterminer automatiquement le nombre de réponses par entreprise :
+            <input type="checkbox" id="autoDistribuer">
+        </label>
+        <br>
+        <label id="reponsesParEntrepriseLabel">Nombre de réponses par entreprise :
+            <input type="number" id="nbReponsesParEntreprise" value="25">
+        </label>
+        <br>
+        <h2>Métiers à analyser</h2>
+        <div id="metiersInputs">
+            <!-- Les métiers ajoutés apparaîtront ici -->
+        </div>
+        <button type="button" onclick="ajouterMetier()">Ajouter un métier</button>
+        <br><br>
+
+
+        <h2>Données des entreprises</h2>
+        <div id="entreprisesInputs">
+            <!-- Exemples par défaut -->
+            <!-- <div class="entreprise">
+                <h3>Entreprise 1</h3>
+                <label>Nombre de développeurs :
+                    <input type="number" class="devs" value="500">
+                </label>
+                <br>
+                <label>Nombre de designers :
+                    <input type="number" class="designers" value="345">
+                </label>
+            </div>
+            <div class="entreprise">
+                <h3>Entreprise 2</h3>
+                <label>Nombre de développeurs :
+                    <input type="number" class="devs" value="450">
+                </label>
+                <br>
+                <label>Nombre de designers :
+                    <input type="number" class="designers" value="670">
+                </label>
+            </div> -->
+        </div>
+
+        <button type="button" onclick="ajouterEntreprise()">Ajouter une entreprise</button>
+        <button type="button" onclick="calculerProportions()">Calculer les proportions</button>
+    </form>
+
+    <h2>Résultats</h2>
+    <div id="resultats"></div>
+    <footer>
+        <script src="script.js"></script>
+    </footer>
+</body>
+</html>
