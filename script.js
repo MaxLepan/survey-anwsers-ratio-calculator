@@ -8,10 +8,12 @@ function ajouterMetier() {
     metierDiv.setAttribute("data-metier-id", metierCount);
 
     metierDiv.innerHTML = `
-        <label>Job ${metierCount} :
+        <div class="containerMetier">
+        <label>
             <input type="text" class="nomMetier" placeholder="Job ${metierCount} name" required>
         </label>
         <button type="button" onclick="supprimerMetier(${metierCount})">Delete</button>
+        </div>
         <br>
     `;
 
@@ -117,7 +119,8 @@ function calculerProportions() {
             nbReponsesParEntreprise = parseInt(document.getElementById("nbReponsesParEntreprise").value);
         }
 
-        document.getElementById("resultats").innerHTML += `<h3>${entreprise.nom}</h3><p>Total number of responses for this company: ${nbReponsesParEntreprise}</p><ul>`;
+        let resultHTML = `<div class="result-item"><h3>${entreprise.nom}</h3>`;
+        resultHTML += `<p>Total number of responses for this company: ${nbReponsesParEntreprise}</p><ul>`;
 
         entreprise.employesParMetier.forEach((metier) => {
             const proportion = metier.nombre / totalEmployes;
@@ -125,15 +128,20 @@ function calculerProportions() {
             let nbHommesMetier = Math.floor(nbMetier * (ratioHommes / totalRatio));
             let nbFemmesMetier = Math.floor(nbMetier * (ratioFemmes / totalRatio));
 
-            document.getElementById("resultats").innerHTML += `
+            resultHTML += `
                 <li>${metier.nom} - Men: ${nbHommesMetier}</li>
                 <li>${metier.nom} - Women: ${nbFemmesMetier}</li>
             `;
         });
 
-        document.getElementById("resultats").innerHTML += "</ul>";
+        resultHTML += "</ul></div>";
+        document.getElementById("resultats").innerHTML += resultHTML;
     });
+
+    // Scroll to results
+    document.getElementById("resultats").scrollIntoView({ behavior: "smooth" });
 }
+
 
 // Affiche ou masque le champ de réponses par entreprise selon la case cochée
 document.getElementById("autoDistribuer").addEventListener("change", toggleDistributionOptions);

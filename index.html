@@ -2,58 +2,65 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Proportions Calculator</title>
+    <title>Survey Proportions Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Survey Proportions Calculator</h1>
-    
-    <form id="formulaireProportions">
-        <h2>Main settings</h2>
-        <label>Total number of responses (ex: 100) :
-            <input type="number" id="nbReponsesTotal" value="100">
-        </label>
-        <br>
-        <label>Men ratio (ex: 7 for a ratio of 7 men for 3 women) :
-            <input type="number" id="ratioHommes" value="7">
-        </label>
-        <br>
-        <label>Women ratio (ex: 3 for a ratio of 7 men for 3 women) :
-            <input type="number" id="ratioFemmes" value="3">
-        </label>
-        <br>
-        <label>Automatically determine the number of responses per company :
-            <input type="checkbox" id="autoDistribuer" onchange="toggleDistributionOptions()">
-        </label>
-        <br>
-        <div id="distributionOptions" style="display: none;">
-            <label>Distribute equally among companies :
-                <input type="checkbox" id="distributionEqually">
-            </label>
+    <div class="container">
+        <h1>Survey Proportions Calculator</h1>
+        
+        <div class="content">
+            <form id="formulaireProportions" class="settings-section">
+                <section>
+                    <h2>Main Settings</h2>
+                    <div class="settings-group">
+                        <label>Total number of responses:
+                            <input type="number" id="nbReponsesTotal" value="100">
+                        </label>
+                        <label>Men ratio:
+                            <input type="number" id="ratioHommes" value="7">
+                        </label>
+                        <label>Women ratio:
+                            <input type="number" id="ratioFemmes" value="3">
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Automatically determine the number of responses per company:
+                            <input type="checkbox" id="autoDistribuer" onchange="toggleDistributionOptions()">
+                        </label>
+                        <div id="distributionOptions" style="display: none;">
+                            <label>Distribute equally among companies:
+                                <input type="checkbox" id="distributionEqually">
+                            </label>
+                        </div>
+                        <label id="reponsesParEntrepriseLabel">Number of responses per company:
+                            <input type="number" id="nbReponsesParEntreprise" value="25">
+                        </label>
+                    </div>
+                </section>
+
+                <section class="jobs-section">
+                    <h2>Jobs to Analyze</h2>
+                    <div id="metiersInputs" class="jobs-list"></div>
+                    <button type="button" class="add-button" onclick="ajouterMetier()">+ Add a Job</button>
+                </section>
+
+                <section class="companies-section">
+                    <h2>Companies Data</h2>
+                    <div id="entreprisesInputs" class="companies-list"></div>
+                    <button type="button" class="add-button" onclick="ajouterEntreprise()">+ Add a Company</button>
+                </section>
+
+                <button type="button" class="calculate-button" onclick="calculerProportions()">Calculate Proportions</button>
+            </form>
+
+            <section class="results-section">
+                <h2>Results</h2>
+                <div id="resultats"></div>
+            </section>
         </div>
-        <br>
-        <label id="reponsesParEntrepriseLabel">Number of responses per company :
-            <input type="number" id="nbReponsesParEntreprise" value="25">
-        </label>
-        <br>
-        <h2>Jobs to analyze</h2>
-        <div id="metiersInputs">
-            <!-- Les métiers ajoutés apparaîtront ici -->
-        </div>
-        <button type="button" onclick="ajouterMetier()">Add a job</button>
-        <br><br>
+    </div>
 
-
-        <h2>Companies data</h2>
-        <div id="entreprisesInputs">
-
-        </div>
-
-        <button type="button" onclick="ajouterEntreprise()">Add a company</button>
-        <button type="button" onclick="calculerProportions()">Calculate proportions</button>
-    </form>
-
-    <h2>Results</h2>
-    <div id="resultats"></div>
     <footer>
         <script src="script.js"></script>
     </footer>
