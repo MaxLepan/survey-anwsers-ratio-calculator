@@ -65,12 +65,20 @@ function supprimerMetier(metierId) {
     document.querySelectorAll(`.metierEntreprise[data-metier-id="${metierId}"]`).forEach((element) => element.remove());
 }
 
+// Fonction pour afficher/masquer les options de distribution
+function toggleDistributionOptions() {
+    const autoDistribuer = document.getElementById("autoDistribuer").checked;
+    document.getElementById("distributionOptions").style.display = autoDistribuer ? "block" : "none";
+    document.getElementById("reponsesParEntrepriseLabel").style.display = autoDistribuer ? "none" : "block";
+}
+
 // Fonction pour calculer les proportions
 function calculerProportions() {
     const nbReponsesTotal = parseInt(document.getElementById("nbReponsesTotal").value);
     const ratioHommes = parseInt(document.getElementById("ratioHommes").value);
     const ratioFemmes = parseInt(document.getElementById("ratioFemmes").value);
     const autoDistribuer = document.getElementById("autoDistribuer").checked;
+    const distributionEqually = document.getElementById("distributionEqually").checked;
     const totalRatio = ratioHommes + ratioFemmes;
 
     // Récupérer les métiers à analyser
@@ -97,13 +105,19 @@ function calculerProportions() {
     entreprises.forEach((entreprise) => {
         let nbReponsesParEntreprise;
         if (autoDistribuer) {
-            const employesEntreprise = entreprise.employesParMetier.reduce((somme, metier) => somme + metier.nombre, 0);
-            nbReponsesParEntreprise = Math.round(nbReponsesTotal * (employesEntreprise / totalEmployes));
+            if (distributionEqually) {
+                // Distribution égale entre les entreprises
+                nbReponsesParEntreprise = Math.floor(nbReponsesTotal / entreprises.length);
+            } else {
+                // Distribution proportionnelle au nombre d'employés
+                const employesEntreprise = entreprise.employesParMetier.reduce((somme, metier) => somme + metier.nombre, 0);
+                nbReponsesParEntreprise = Math.round(nbReponsesTotal * (employesEntreprise / totalEmployes));
+            }
         } else {
             nbReponsesParEntreprise = parseInt(document.getElementById("nbReponsesParEntreprise").value);
         }
 
-        document.getElementById("resultats").innerHTML += `<h3>${entreprise.nom}</h3><p>Total nomber of response for this company: ${nbReponsesParEntreprise}</p><ul>`;
+        document.getElementById("resultats").innerHTML += `<h3>${entreprise.nom}</h3><p>Total number of responses for this company: ${nbReponsesParEntreprise}</p><ul>`;
 
         entreprise.employesParMetier.forEach((metier) => {
             const proportion = metier.nombre / totalEmployes;
@@ -122,6 +136,4 @@ function calculerProportions() {
 }
 
 // Affiche ou masque le champ de réponses par entreprise selon la case cochée
-document.getElementById("autoDistribuer").addEventListener("change", function() {
-    document.getElementById("reponsesParEntrepriseLabel").style.display = this.checked ? "none" : "block";
-});
+document.getElementById("autoDistribuer").addEventListener("change", toggleDistributionOptions);

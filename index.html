@@ -22,8 +22,14 @@
         </label>
         <br>
         <label>Automatically determine the number of responses per company :
-            <input type="checkbox" id="autoDistribuer">
+            <input type="checkbox" id="autoDistribuer" onchange="toggleDistributionOptions()">
         </label>
+        <br>
+        <div id="distributionOptions" style="display: none;">
+            <label>Distribute equally among companies :
+                <input type="checkbox" id="distributionEqually">
+            </label>
+        </div>
         <br>
         <label id="reponsesParEntrepriseLabel">Number of responses per company :
             <input type="number" id="nbReponsesParEntreprise" value="25">
