@@ -83,10 +83,8 @@ function calculerProportions() {
     const distributionEqually = document.getElementById("distributionEqually").checked;
     const totalRatio = ratioHommes + ratioFemmes;
 
-    // Récupérer les métiers à analyser
     const metiers = Array.from(document.querySelectorAll(".nomMetier")).map((input) => input.value || input.placeholder);
 
-    // Récupérer les données des entreprises
     const entreprises = [];
     document.querySelectorAll('.entreprise').forEach((div) => {
         const nom = div.querySelector(".nomEntreprise").value || "Company";
@@ -99,19 +97,17 @@ function calculerProportions() {
         entreprises.push({ nom, employesParMetier });
     });
 
-    const totalEmployes = entreprises.reduce((total, entreprise) => total + entreprise.employesParMetier.reduce((somme, metier) => somme + metier.nombre, 0), 0);
+    const totalEmployes = entreprises.reduce((total, entreprise) => 
+        total + entreprise.employesParMetier.reduce((somme, metier) => somme + metier.nombre, 0), 0);
 
-    // Effacer les résultats précédents
     document.getElementById("resultats").innerHTML = "";
 
     entreprises.forEach((entreprise) => {
         let nbReponsesParEntreprise;
         if (autoDistribuer) {
             if (distributionEqually) {
-                // Distribution égale entre les entreprises
                 nbReponsesParEntreprise = Math.floor(nbReponsesTotal / entreprises.length);
             } else {
-                // Distribution proportionnelle au nombre d'employés
                 const employesEntreprise = entreprise.employesParMetier.reduce((somme, metier) => somme + metier.nombre, 0);
                 nbReponsesParEntreprise = Math.round(nbReponsesTotal * (employesEntreprise / totalEmployes));
             }
@@ -123,10 +119,19 @@ function calculerProportions() {
         resultHTML += `<p>Total number of responses for this company: ${nbReponsesParEntreprise}</p><ul>`;
 
         entreprise.employesParMetier.forEach((metier) => {
-            const proportion = metier.nombre / totalEmployes;
-            let nbMetier = nbReponsesParEntreprise * proportion;
+            const proportionMetier = metier.nombre / entreprise.employesParMetier.reduce((somme, m) => somme + m.nombre, 0);
+            let nbMetier = nbReponsesParEntreprise * proportionMetier;
             let nbHommesMetier = Math.floor(nbMetier * (ratioHommes / totalRatio));
             let nbFemmesMetier = Math.floor(nbMetier * (ratioFemmes / totalRatio));
+
+            let totalAssigned = nbHommesMetier + nbFemmesMetier;
+            if (totalAssigned < nbMetier) {
+                if ((nbMetier * (ratioHommes / totalRatio)) % 1 > (nbMetier * (ratioFemmes / totalRatio)) % 1) {
+                    nbHommesMetier += nbMetier - totalAssigned;
+                } else {
+                    nbFemmesMetier += nbMetier - totalAssigned;
+                }
+            }
 
             resultHTML += `
                 <li>${metier.nom} - Men: ${nbHommesMetier}</li>
@@ -137,10 +142,8 @@ function calculerProportions() {
         resultHTML += "</ul></div>";
         document.getElementById("resultats").innerHTML += resultHTML;
     });
-
-    // Scroll to results
-    document.getElementById("resultats").scrollIntoView({ behavior: "smooth" });
 }
+
 
 
 // Affiche ou masque le champ de réponses par entreprise selon la case cochée
