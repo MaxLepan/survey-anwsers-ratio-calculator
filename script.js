@@ -134,8 +134,8 @@ function calculerProportions() {
             }
 
             resultHTML += `
-                <li>${metier.nom} - Men: ${nbHommesMetier}</li>
-                <li>${metier.nom} - Women: ${nbFemmesMetier}</li>
+                <li>${metier.nom} - Men: ${Math.round(nbHommesMetier)}</li>
+                <li>${metier.nom} - Women: ${Math.round(nbFemmesMetier)}</li>
             `;
         });
 
